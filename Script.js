@@ -10,6 +10,13 @@
 // let moves = 0;
 // let imageURL = '';
 
+// const localImages = [
+//   'images/nature1.jpg',
+//   'images/nature2.jpg',
+//   'images/nature3.jpg',
+//   'images/nature4.jpg'
+// ];
+
 // function createPuzzle(image) {
 //   puzzleContainer.innerHTML = '';
 //   tiles = [];
@@ -86,7 +93,7 @@
 
 // // ✅ Fetch image from Pexels API
 // async function getRandomImageFromPexels() {
-//   const apiKey = "3Oc14JRKBU54mGZlopcd6MWeG6XsCmn7JFCwtDf5Glqv7rvjgMzoEmHI"; // Replace with your real Pexels API key
+//   const apiKey = "3Oc14JRKBU54mGZlopcd6MWeG6XsCmn7JFCwtDf5Glqv7rvjgMzoEmHI";
 //   const response = await fetch(
 //     "https://api.pexels.com/v1/search?query=nature&per_page=1&page=" + Math.floor(Math.random() * 80),
 //     {
@@ -100,20 +107,27 @@
 //   if (data.photos && data.photos.length > 0) {
 //     return data.photos[0].src.large;
 //   } else {
-//     throw new Error("No image found.");
+//     throw new Error("No image found in API.");
 //   }
 // }
 
-// // ✅ Start puzzle with random Pexels image
-// startBtn.addEventListener("click", async () => {
+// // ✅ Load image with fallback to local images
+// async function loadImageWithFallback() {
 //   try {
-//     const randomImage = await getRandomImageFromPexels();
-//     imageURL = randomImage;
-//     createPuzzle(imageURL);
+//     const remoteImage = await getRandomImageFromPexels();
+//     return remoteImage;
 //   } catch (error) {
-//     alert("Failed to load image from Pexels. Please check your API key or internet.");
-//     console.error(error);
+//     console.warn("Pexels API failed. Falling back to local image.");
+//     const fallbackImage = localImages[Math.floor(Math.random() * localImages.length)];
+//     return fallbackImage;
 //   }
+// }
+
+// // ✅ Start puzzle
+// startBtn.addEventListener("click", async () => {
+//   const selectedImage = await loadImageWithFallback();
+//   imageURL = selectedImage;
+//   createPuzzle(imageURL);
 // });
 
 // // ✅ Upload custom image
@@ -141,10 +155,10 @@ let moves = 0;
 let imageURL = '';
 
 const localImages = [
-  'puzaal-game/images/nature1.jpg',
-  'puzaal-game/images/nature2.jpg',
-  'puzaal-game/images/nature3.jpg',
-  'puzaal-game/images/nature4.jpg'
+  'images/nature1.jpg',
+  'images/nature2.jpg',
+  'images/nature3.jpg',
+  'images/nature4.jpg'
 ];
 
 function createPuzzle(image) {
@@ -164,11 +178,12 @@ function createPuzzle(image) {
     tile.className = "tile";
     tile.draggable = true;
     tile.dataset.index = i;
-    tile.style.backgroundImage = `url(${image})`;
 
     const row = Math.floor(i / gridSize);
     const col = i % gridSize;
+    tile.style.backgroundImage = `url(${image})`;
     tile.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
+    tile.style.backgroundSize = `400px 400px`;
     tile.style.width = `${tileSize}px`;
     tile.style.height = `${tileSize}px`;
 
@@ -224,8 +239,10 @@ function checkIfSolved() {
 // ✅ Fetch image from Pexels API
 async function getRandomImageFromPexels() {
   const apiKey = "3Oc14JRKBU54mGZlopcd6MWeG6XsCmn7JFCwtDf5Glqv7rvjgMzoEmHI";
+  const randomPage = Math.floor(Math.random() * 50) + 1;
+
   const response = await fetch(
-    "https://api.pexels.com/v1/search?query=nature&per_page=1&page=" + Math.floor(Math.random() * 80),
+    `https://api.pexels.com/v1/search?query=nature&per_page=1&page=${randomPage}`,
     {
       headers: {
         Authorization: apiKey
@@ -233,12 +250,12 @@ async function getRandomImageFromPexels() {
     }
   );
 
+  if (!response.ok) throw new Error("API failed");
   const data = await response.json();
-  if (data.photos && data.photos.length > 0) {
-    return data.photos[0].src.large;
-  } else {
-    throw new Error("No image found in API.");
+  if (data.photos.length > 0) {
+    return data.photos[0].src.large2x;
   }
+  throw new Error("No image found");
 }
 
 // ✅ Load image with fallback to local images
@@ -247,17 +264,20 @@ async function loadImageWithFallback() {
     const remoteImage = await getRandomImageFromPexels();
     return remoteImage;
   } catch (error) {
-    console.warn("Pexels API failed. Falling back to local image.");
+    console.warn("Pexels API failed. Using local fallback.");
     const fallbackImage = localImages[Math.floor(Math.random() * localImages.length)];
     return fallbackImage;
   }
 }
 
-// ✅ Start puzzle
+// ✅ Start puzzle with API or fallback image
 startBtn.addEventListener("click", async () => {
   const selectedImage = await loadImageWithFallback();
   imageURL = selectedImage;
-  createPuzzle(imageURL);
+  const img = new Image();
+  img.onload = () => createPuzzle(imageURL);
+  img.onerror = () => alert("Failed to load image");
+  img.src = imageURL;
 });
 
 // ✅ Upload custom image
@@ -267,7 +287,10 @@ uploadImage.addEventListener("change", e => {
     const reader = new FileReader();
     reader.onload = function (evt) {
       imageURL = evt.target.result;
-      createPuzzle(imageURL);
+      const img = new Image();
+      img.onload = () => createPuzzle(imageURL);
+      img.onerror = () => alert("Failed to load uploaded image");
+      img.src = imageURL;
     };
     reader.readAsDataURL(file);
   }
