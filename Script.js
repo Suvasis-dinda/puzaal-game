@@ -273,11 +273,13 @@ async function loadImageWithFallback() {
 // ✅ Start puzzle with API or fallback image
 startBtn.addEventListener("click", async () => {
   const selectedImage = await loadImageWithFallback();
-  imageURL = selectedImage;
   const img = new Image();
-  img.onload = () => createPuzzle(imageURL);
-  img.onerror = () => alert("Failed to load image");
-  img.src = imageURL;
+  img.onload = () => {
+    imageURL = selectedImage;
+    createPuzzle(imageURL);
+  };
+  img.onerror = () => alert("❌ Failed to load image from Pexels or local.");
+  img.src = selectedImage;
 });
 
 // ✅ Upload custom image
@@ -286,11 +288,13 @@ uploadImage.addEventListener("change", e => {
   if (file) {
     const reader = new FileReader();
     reader.onload = function (evt) {
-      imageURL = evt.target.result;
       const img = new Image();
-      img.onload = () => createPuzzle(imageURL);
-      img.onerror = () => alert("Failed to load uploaded image");
-      img.src = imageURL;
+      img.onload = () => {
+        imageURL = evt.target.result;
+        createPuzzle(imageURL);
+      };
+      img.onerror = () => alert("❌ Failed to load uploaded image.");
+      img.src = evt.target.result;
     };
     reader.readAsDataURL(file);
   }
