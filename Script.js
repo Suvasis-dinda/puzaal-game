@@ -143,4 +143,5 @@ uploadImage.addEventListener("change", e => {
     };
     reader.readAsDataURL(file);
   }
+  console.log("upload complete");
 });
