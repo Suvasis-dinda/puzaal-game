@@ -1,0 +1,186 @@
+/* Global Styles
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+button, select, input[type="file"] {
+  margin: 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover,
+select:hover,
+input[type="file"]:hover {
+  background-color: #ddd;
+  transform: scale(1.03);
+}
+
+#movesCount {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+#puzzleContainer {
+  display: grid;
+  width: 400px;
+  height: 400px;
+  border: 2px solid #333;
+  background-color: #fafafa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.tile {
+  background-size: 400px 400px;
+  border: 1px solid #ccc;
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tile:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+}
+
+/* Responsive layout for puzzle grid 
+@media (max-width: 500px) {
+  #puzzleContainer {
+    width: 300px;
+    height: 300px;
+  }
+
+  .tile {
+    background-size: 300px 300px;
+  }
+} */
+
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #c9d6ff, #e2e2e2); /* More vibrant gradient */
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Header Section */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+/* Buttons, Selects, Inputs */
+button, select, input[type="file"] {
+  margin: 5px;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #888;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button:hover, select:hover, input[type="file"]:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.05);
+}
+
+/* Move Counter */
+#movesCount {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: bold;
+  color: #444;
+}
+
+/* Puzzle Container */
+#puzzleContainer {
+  display: grid;
+  width: 400px;
+  height: 400px;
+  border: 2px solid #333;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* Tile Styling */
+.tile {
+  background-size: 400px 400px;
+  border: 1px solid #ccc;
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 6px;
+}
+
+.tile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tile:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+}
+
+/* Responsive Layout for Puzzle Grid */
+@media (max-width: 500px) {
+  #puzzleContainer {
+    width: 300px;
+    height: 300px;
+  }
+
+  .tile {
+    background-size: 300px 300px;
+  }
+
+  button, select, input[type="file"] {
+    width: 90%;
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
