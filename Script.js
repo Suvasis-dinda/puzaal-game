@@ -141,10 +141,10 @@ let moves = 0;
 let imageURL = '';
 
 const localImages = [
-  'images/nature1.jpg',
-  'images/nature2.jpg',
-  'images/nature3.jpg',
-  'images/nature4.jpg'
+  'puzaal-game/images/nature1.jpg',
+  'puzaal-game/images/nature2.jpg',
+  'puzaal-game/images/nature3.jpg',
+  'puzaal-game/images/nature4.jpg'
 ];
 
 function createPuzzle(image) {
