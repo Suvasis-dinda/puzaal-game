@@ -1,7 +1,7 @@
-/* Global Styles 
+/* 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #c9d6ff, #e2e2e2);  
+  background: linear-gradient(135deg, #c9d6ff, #e2e2e2);
   margin: 0;
   padding: 20px;
   display: flex;
@@ -22,6 +22,7 @@ h1 {
   color: #222;
 }
 
+
 button, select, input[type="file"] {
   margin: 5px;
   padding: 10px 16px;
@@ -39,6 +40,7 @@ button:hover, select:hover, input[type="file"]:hover {
   transform: scale(1.05);
 }
 
+
 #movesCount {
   display: inline-block;
   margin-left: 10px;
@@ -49,22 +51,27 @@ button:hover, select:hover, input[type="file"]:hover {
 
 #puzzleContainer {
   display: grid;
-  width: 400px;
-  height: 400px;
+  width: 90vmin; 
+  height: 90vmin;
+  max-width: 500px;
+  max-height: 500px;
   border: 2px solid #333;
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   border-radius: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(1px, 1fr));
 }
 
 
 .tile {
-  background-size: 400px 400px;
+  background-size: 100% 100%;
   border: 1px solid #ccc;
   cursor: grab;
   transition: transform 0.2s, box-shadow 0.2s;
   border-radius: 6px;
+  width: 100%;
+  height: 100%;
 }
 
 .tile:hover {
@@ -78,16 +85,7 @@ button:hover, select:hover, input[type="file"]:hover {
 }
 
 
-@media (max-width: 500px) {
-  #puzzleContainer {
-    width: 300px;
-    height: 300px;
-  }
-
-  .tile {
-    background-size: 300px 300px;
-  }
-
+@media (max-width: 600px) {
   button, select, input[type="file"] {
     width: 90%;
     font-size: 14px;
@@ -151,7 +149,7 @@ button:hover, select:hover, input[type="file"]:hover {
 /* Puzzle Container */
 #puzzleContainer {
   display: grid;
-  width: 90vmin; /* Adjusts to smaller of width or height */
+  width: 90vmin; /* Square and responsive */
   height: 90vmin;
   max-width: 500px;
   max-height: 500px;
@@ -160,22 +158,25 @@ button:hover, select:hover, input[type="file"]:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   border-radius: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(1px, 1fr));
+  gap: 0; /* No space between tiles */
 }
 
 /* Tile Styling */
 .tile {
-  background-size: 100% 100%; /* Responsive background */
-  border: 1px solid #ccc;
-  cursor: grab;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border-radius: 6px;
   width: 100%;
   height: 100%;
+  aspect-ratio: 1 / 1;
+  background-size: calc(var(--grid-size) * 100%) calc(var(--grid-size) * 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none; /* remove tile gaps */
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 0;
 }
 
 .tile:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -184,8 +185,8 @@ button:hover, select:hover, input[type="file"]:hover {
   transform: scale(0.98);
 }
 
-/* Responsive Buttons and Text */
-@media (max-width: 600px) {
+/* Responsive Layout */
+@media (max-width: 500px) {
   button, select, input[type="file"] {
     width: 90%;
     font-size: 14px;
@@ -194,4 +195,10 @@ button:hover, select:hover, input[type="file"]:hover {
   h1 {
     font-size: 1.5rem;
   }
+
+  #puzzleContainer {
+    width: 90vw;
+    height: 90vw;
+  }
 }
+
